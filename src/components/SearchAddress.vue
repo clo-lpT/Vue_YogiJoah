@@ -5,12 +5,16 @@
         <input type="button" v-on:click="load_juso" value="주소 검색"><br>
         <div id="map" style="width:300px;height:300px;margin-top:10px;"></div> 
 
-        <input type="text" id="sample5_address" placeholder="메모">
+        <input type="text" id="memo" v-model="memo" placeholder="메모">
         <input type="button" v-on:click="add_place" value="장소 추가"><br>
       </div>
       <div class="set_juso_list">
         <h4>요기조아</h4>
-        <div v-for="item in joah_list" v-bind:key="item.id">위치: {{item.place}}</div>
+        <div v-for="item in joah_list" v-bind:key="item.id">
+          <span>위치: {{item.place}}</span>
+          <span>메모: {{item.memo}}</span>
+          <button v-on:click="delete_place(item)">삭제</button>
+        </div>
       </div>
     </div>
   </div>
@@ -24,7 +28,7 @@ export default {
     return {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       geocoder: new window.kakao.maps.services.Geocoder(),
-      joah_add: 'test',
+      joah_add: '',
       joah_list: []
     }
   },
@@ -71,10 +75,17 @@ export default {
       } else {
         placeList.id = this.joah_list[this.joah_list.length-1].id +1
       }
-      placeList.place = this.joah_add;
+      placeList.place = this.joah_add
+      placeList.memo = this.memo
       placeList.toggle = false
       this.joah_list.push(...[placeList])
       console.log(placeList)
+      this.memo = ''
+    },
+    delete_place(item) {
+      console.log(item)
+      const arr = this.joah_list.filter(x => x.id!==item.id)
+      this.joah_list = arr
     }
   }
 }
