@@ -10,7 +10,7 @@
       </div>
       <div class="set_juso_list">
         <h4>요기조아</h4>
-        <div></div>
+        <div v-for="item in joah_list" v-bind:key="item.id">위치: {{item.place}}</div>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       geocoder: new window.kakao.maps.services.Geocoder(),
       joah_add: 'test',
-      joah_list: {}
+      joah_list: []
     }
   },
   props: {
@@ -41,11 +41,10 @@ export default {
   methods: {
     load_juso() {
       new window.daum.Postcode({
-        oncomplete: function(data) {
+        oncomplete: (data) => {
           var addr = data.address; // 최종 주소 변수
           console.log(addr,'주소')
           this.joah_add = addr;
-          console.log(this.joah_add ,'조아조아')
           // // 주소로 상세 정보를 검색
           new window.kakao.maps.services.Geocoder().addressSearch(data.address, function(results, status) {
             // 정상적으로 검색이 완료됐으면
@@ -66,7 +65,16 @@ export default {
       }).open();
     },
     add_place() {
-      console.log('장소추가',this.joah_add)
+      const placeList = []
+      if(this.joah_list.length == 0){
+        placeList.id = 1
+      } else {
+        placeList.id = this.joah_list[this.joah_list.length-1].id +1
+      }
+      placeList.place = this.joah_add;
+      placeList.toggle = false
+      this.joah_list.push(...[placeList])
+      console.log(placeList)
     }
   }
 }
