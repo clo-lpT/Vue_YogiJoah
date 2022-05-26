@@ -10,9 +10,9 @@
       </div>
       <div class="set_juso_list">
         <h4>요기조아</h4>
-        <div v-for="item in joah_list" v-bind:key="item.id">
-          <span>위치: {{item.place}}</span>
-          <span>메모: {{item.memo}}</span>
+        <div class="joah" v-for="item in joah_list" v-bind:key="item.id">
+          <span id="place">위치: {{item.place}}</span>
+          <span id="memo">메모: {{item.memo}}</span>
           <button v-on:click="delete_place(item)">삭제</button>
         </div>
       </div>
@@ -100,10 +100,35 @@ export default {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 #SearchAddress .main_class .find_juso_map .juso_input {
   display: flex;
   border-bottom: 2px solid gray;
+}
+
+#SearchAddress .main_class .set_juso_list {
+  width: 500px;
+}
+
+#SearchAddress .main_class .set_juso_list .joah {
+  display: flex;
+  justify-content: space-between;
+}
+
+#SearchAddress .main_class .set_juso_list .joah #place {
+  width: 250px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#SearchAddress .main_class .set_juso_list .joah #memo {
+  width: 130px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
 }
 </style>
